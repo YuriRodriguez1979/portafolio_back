@@ -6,31 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsuariosService = void 0;
+exports.PrismaService = void 0;
 const common_1 = require("@nestjs/common");
-let UsuariosService = class UsuariosService {
-    lista;
-    static listar() {
-        throw new Error('Method not implemented.');
+const client_1 = require("@prisma/client");
+let PrismaService = class PrismaService extends client_1.PrismaClient {
+    async onModuleInit() {
+        await this.$connect();
     }
-    listar() {
-        const Usuario = {};
-        this.lista = {};
-        Usuario.nombre = 'Juan Perez';
-        Usuario.email = 'yuri@gmail.com';
-        this.lista.nombre = Usuario.nombre;
-        this.lista.email = Usuario.email;
-        return this.lista;
-    }
-    test() {
-        return 'Test de usuarios';
-    }
-    crearUsuario(datos) {
-        return { datos };
+    async onModuleDestroy() {
+        await this.$disconnect();
     }
 };
-exports.UsuariosService = UsuariosService;
-exports.UsuariosService = UsuariosService = __decorate([
+exports.PrismaService = PrismaService;
+exports.PrismaService = PrismaService = __decorate([
     (0, common_1.Injectable)()
-], UsuariosService);
-//# sourceMappingURL=usuarios.service.js.map
+], PrismaService);
+//# sourceMappingURL=prisma.service.js.map

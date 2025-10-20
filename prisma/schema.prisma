@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre_usuario    String
+  email     String   @unique
+  password  String
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  Estudios_Profesionales Estudios_Profesionales[]
+  Certidicados Certificados[]
+  Habilidades_Tecnicas Habilidades_Tecnicas[]
+  experiencia_laboral Experiencia_Laboral[]
+}
+
+model Estudios_Profesionales{
+  id        Int      @id @default(autoincrement())
+  grado_academico    String
+  institucion String
+  anio_finalizacion Int
+  num_resolucion String
+  ruta_titulo String
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Certificados{
+  id        Int      @id @default(autoincrement())
+  nombre_certificado    String
+  institucion String
+  anio_obtencion Int
+  duracion String
+  ruta_certificado String
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Habilidades_Tecnicas{
+  id        Int      @id @default(autoincrement())
+  lenguaje    String
+  tipo_habilidad String
+  nivel_dominio String
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
+
+model Experiencia_Laboral{
+  id        Int      @id @default(autoincrement())
+  cargo    String
+  empresa String
+  funciones String
+  anio_inicio Int
+  anio_fin Int
+  descripcion String
+  creadoEn  DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+  usuarioId Int
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+}
